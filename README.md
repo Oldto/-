@@ -43,7 +43,12 @@ if( isset( $_GET[ 'Submit' ] ) ) {
 ```
 从代码中可看出结果只会显示存在或者不存在。
 - 存在
-
+![image](https://user-images.githubusercontent.com/71583369/144703086-ac33bad2-f36b-4952-b5a5-617fd5db3c46.png)
+- 不存在
+![image](https://user-images.githubusercontent.com/71583369/144703097-03877ec4-8711-4232-9f83-d60574754638.png)
+1. 判断是否存在注入，判断是字符型还是数字型注入
+- 输入`1' and 1=1#`显示存在，输入`1' and 1=2#`显示不存在，判断为字符型注入
+2. 猜解数据库名字，使用`length()`判断长度，构造`1' and length(database())=4#`,在不知道长度的情况下可以使用burp进行爆破
 
 
 
