@@ -23,6 +23,10 @@ http在请求是会带上客户端的cookie，注入点在cookie中，攻击代�
 - 堆叠类型注入
 - 布尔类型注入（布尔盲注）
 - 时间类型注入（时间盲注）
+
+## information_schema结构
+![image](https://user-images.githubusercontent.com/71583369/148630839-395663de-959a-4d95-ba54-0e28d3dbc9f9.png)
+
 ## 漏洞利用
 ## Low SQL Injection Source
 ```
