@@ -45,6 +45,7 @@ CSRF：CSRF（Cross-site request forgery）跨站请求伪造，也被称为“O
 
 iframe功能类似于include，引用链接。
 ```
+<ifarme src="http://www.xxx.com/csrf.html" wedth="0" height="0"></ifarme>
 <ifarme src="http://www.baidu.com" wedth="1920" height="1080"></ifarme>
 ```
 通过页面将着呢个屏幕沾满，来进行伪装，实则在后台添加了账户。
